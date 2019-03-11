@@ -1,59 +1,69 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa" target="_blank" rel="noopener">pwa</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+    <b-container class="bv-example-row">
+       <div id="blog-home">
+            <h1>New Blog Posts</h1>
+               <div
+                v-for="(post,index) in posts"
+                :key="post.id + '_' + index" >
+                <router-link :to="'/blog/' + post.id">
+                <article class="media">
+                    <figure>
+                    <!-- Bind results using a `:` -->
+                    <!-- Use a `v-if`/`else` if their is a `featured_image` -->
+                    <!--<img
+                        v-if="post.featured_image"
+                        :src="post.featured_image"
+                        alt=""
+                    >
+                    <img
+                        v-else
+                        src="http://via.placeholder.com/250x250"
+                        alt=""
+                    > -->
+                    </figure>
+                    <b-row>
+                        <b-col cols="12"><h2>{{ post.title }}</h2></b-col>
+                        <b-col cols="12"><p>{{ post.details }}</p></b-col>
+                    </b-row>
+                </article>
+                </router-link>
+            </div>
+        </div>
+    </b-container>
 </template>
-
 <script>
+const axios = require('axios');
+
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String,
+  data() {
+    return {
+      posts: null,
+      loading: true,
+      errored: false,
+    };
+  },
+  filters: {
+    currencydecimal(value) {
+      return value.toFixed(2);
+    },
+  },
+  mounted() {
+    axios
+      .get('http://localhost:8181/api/post/getAllPostWithComment')
+      .then((response) => {
+        console.log(response.data);
+        this.posts = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.errored = true;
+      })
+      .finally(this.loading = false);
   },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+<style>
+p{
+    color:black;
 }
 </style>
