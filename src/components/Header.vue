@@ -1,7 +1,7 @@
 <template>
     <div>
-    <b-navbar toggleable="lg" type="dark" variant="info">
-        <b-navbar-brand href="/">NavBar</b-navbar-brand>
+       <b-navbar toggleable="lg" type="dark" variant="info">
+        <b-navbar-brand href="/">BLOGGER</b-navbar-brand>
 
         <b-navbar-toggle target="nav_collapse" />
 
@@ -23,17 +23,30 @@
             <b-dropdown-item href="#">ES</b-dropdown-item>
             <b-dropdown-item href="#">RU</b-dropdown-item>
             <b-dropdown-item href="#">FA</b-dropdown-item>
-            </b-nav-item-dropdown>
+                </b-nav-item-dropdown>
 
-            <b-nav-item-dropdown right>
-            <!-- Using button-content slot -->
-            <template slot="button-content"><em>User</em></template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">Signout</b-dropdown-item>
-            </b-nav-item-dropdown>
-        </b-navbar-nav>
-        </b-collapse>
-    </b-navbar>
+                <b-nav-item-dropdown right>
+                <!-- Using button-content slot -->
+                <template slot="button-content"><em>User</em></template>
+                <b-dropdown-item href="#">Profile</b-dropdown-item>
+                <b-dropdown-item href="#">Signout</b-dropdown-item>
+                </b-nav-item-dropdown>
+            </b-navbar-nav>
+            </b-collapse>
+        </b-navbar>
     </div>
-
 </template>
+<script>
+export default {
+    data() {
+    return {
+      // note: changing this line won't causes changes
+      // with hot-reload because the reloaded component
+      // preserves its current state and we are modifying
+      // its initial state.
+      msg: 'Hello World!',
+      img: '../assets/blogger-logo.jpg'
+    };
+  },
+};
+</script>
