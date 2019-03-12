@@ -3,8 +3,8 @@
        <div id="blog-home">
             <h1>New Blog Posts</h1>
                <div
-                v-for="(post) in posts"
-                :key="post.id" >                
+                v-for="(post, index) in posts"
+                :key="post.id+index" >                
                 <article class="media">
                     <figure>
                     <!-- Bind results using a `:` -->
