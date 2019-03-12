@@ -27,6 +27,14 @@
                                  <div v-if="post.allComments[0]==null">
                                      <div style="margin-left: 50px;">
                                         <h6>comments not found</h6>
+                                        <b-row>
+                                                      <b-button variant="primary" :id="post.id"  v-on:click="getPostId" v-b-modal="'myModal' + post.id">Add comments</b-button>
+                                                        <b-modal :id="'myModal' + post.id" @ok="postNow" title="Large Modal" centered>
+                                                          <span :data-id="post.id"></span>
+                                                            <input type="text" v-model="comments" name="comments"/>
+                                                           
+                                                        </b-modal>                                                         
+                                                </b-row>
                                      </div>
                                  </div>
                                  <div v-else style="width: 100%;">                                    
@@ -65,10 +73,6 @@
 
 <script>
 const axios = require('axios');
-(function() {
-     axios.defaults.headers.common['Authorization'] = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6Im1vbmRvbG1pc2xhbTFAZ21haWwuY29tIiwidHlwZSI6InVzZXIiLCJpYXQiOjE1NTIzODEzNzcsImV4cCI6MTU1MjQ2Nzc3N30.HTeraAWIWyHIanT5kxJmACC52cISBPKpMDTlSxQe5WO4uO7Rr0ZluNwAFlpG_oQTyOzIO1kcvXxX9GsrV28quovDum5Ix3z2arnWbdID4qCbnGwIMJG_4J1AdiYARI161KPE8s1PCTZqUdIvt54keDUV-DjjltRVOPKRdSsVdjU';
-    
-})();
 
 export default {
   data() {
@@ -109,8 +113,7 @@ export default {
             url: 'http://localhost:8181/api/comments/create',
             data: {post_id:this.posts_id,comments:comments},
             config: { headers: {
-                'Content-type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6Im1vbmRvbG1pc2xhbTFAZ21haWwuY29tIiwidHlwZSI6InVzZXIiLCJpYXQiOjE1NTIyOTY1ODUsImV4cCI6MTU1MjM4Mjk4NX0.RZIFKnJybVZCdybZ5LdZJYO9Ku5xJip1QL8kQCs0h9j7rPzfgH4AAlZZpilDIwrYI2J9uVs0b2ZC6lqM1-IiA_Su0vgGFVnuI3TiNcjIXTyYWx76NMONzhKjcoblzyw1jLOM4xckkXFaLfGQO19ai6zVGJQcV-sInq8rvYThr-8'
+                'Content-type': 'application/x-www-form-urlencoded'
             }}
             })
             .then( (response) => {

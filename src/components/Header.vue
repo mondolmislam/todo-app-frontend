@@ -7,7 +7,7 @@
 
         <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
-            <b-nav-item href="#">Link</b-nav-item>
+            <b-nav-item href="/newpost">Add Blog Post</b-nav-item>
             <b-nav-item href="#" disabled>Disabled</b-nav-item>
         </b-navbar-nav>
 
@@ -18,12 +18,9 @@
             <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
             </b-nav-form>
 
-            <b-nav-item-dropdown text="Lang" right>
-            <b-dropdown-item href="#">EN</b-dropdown-item>
-            <b-dropdown-item href="#">ES</b-dropdown-item>
-            <b-dropdown-item href="#">RU</b-dropdown-item>
-            <b-dropdown-item href="#">FA</b-dropdown-item>
-                </b-nav-item-dropdown>
+            <b-navbar-nav>
+            <b-nav-item href="/login" v-if="user">Login</b-nav-item>
+             </b-navbar-nav>
 
                 <b-nav-item-dropdown right>
                 <!-- Using button-content slot -->
@@ -37,6 +34,7 @@
     </div>
 </template>
 <script>
+const axios = require('axios');
 export default {
     data() {
     return {
@@ -45,8 +43,12 @@ export default {
       // preserves its current state and we are modifying
       // its initial state.
       msg: 'Hello World!',
-      img: '../assets/blogger-logo.jpg'
+      img: '../assets/blogger-logo.jpg',
+      user:true
     };
   },
+   mounted() {
+            this.user=axios.defaults.headers.common['Authorization'] ;
+        }
 };
 </script>
