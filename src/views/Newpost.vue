@@ -1,12 +1,12 @@
 <template>
   <div class="about">
   	<b-container fluid>
-    <h1>New Post</h1>
+    <h1>Create New Post</h1>
     <div>
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
       <b-form-group
         id="exampleInputGroup1"
-        label="Title:"
+        label="Post Title:"
         label-for="exampleInput1"
         description="We'll never share your email with anyone else."
       >
@@ -18,7 +18,7 @@
           placeholder="Enter title" />
       </b-form-group>
 
-      <b-form-group id="exampleInputGroup2" label="Your Name:" label-for="exampleInput2">
+      <b-form-group id="exampleInputGroup2" label="Enter detail:" label-for="exampleInput2">
         <b-form-textarea
           id="exampleInput2"
           type="text"
@@ -48,15 +48,16 @@ const axios = require('axios');
     },
     methods: {
       onSubmit(evt) {
-        evt.preventDefault()
-        //alert(JSON.stringify(this.form))
+        evt.preventDefault();
+         var header = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + this.$session.get('jwt')                    
+        }
         axios({
-            method: 'post',
-            url: 'http://localhost:8181/api/post/create',
-            data: this.form,
-            config: { headers: {
-                'Content-type': 'application/x-www-form-urlencoded'
-            }}
+                method: 'post',
+                url: 'http://localhost:8181/api/post/create',
+                data: this.form,                
+                headers: header                
             })
             .then( (response) => {
                window.location.href = '/';

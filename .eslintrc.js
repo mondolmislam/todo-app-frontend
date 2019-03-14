@@ -10,10 +10,10 @@ module.exports = {
 		SharedArrayBuffer: 'readonly'
 	},
 	parser: 'babel-eslint',
-parserOptions: {
-  sourceType: 'module',
-  allowImportExportEverywhere: true
-},
+        parserOptions: {
+        sourceType: 'module',
+        allowImportExportEverywhere: true
+        },
 	rules: {
 		'no-console': 'off',
 		semi: 'off',

@@ -18,7 +18,7 @@
           placeholder="Enter email" />
       </b-form-group>
 
-      <b-form-group id="exampleInputGroup2" label="Your Name:" label-for="exampleInput2">
+      <b-form-group id="exampleInputGroup2" label="Your Password:" label-for="exampleInput2">
         <b-form-input
           id="exampleInput2"
           type="password"
@@ -50,18 +50,29 @@ const axios = require('axios');
       onSubmit(evt) {
         evt.preventDefault()
         //alert(JSON.stringify(this.form))
+        var header = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + this.$session.get('jwt')                    
+        }
        axios({
             method: 'post',
             url: 'http://localhost:8181/api/user/user_login',
             data: this.form,
-            config: { headers: {
-                'Content-type': 'application/x-www-form-urlencoded'
-            }}
+            headers:header
             })
             .then( (response) => {
-               console.log(response);
-              // window.location.href = '/';
-               axios.defaults.headers.common['Authorization'] =response.data.token;
+               const Vue = window.vue;
+               if (response.status === 200 && 'token' in response.data) {
+                   console.log(response.data);
+                    this.$session.start();
+                    this.$session.set('jwt', response.data.token);
+                    //https://www.npmjs.com/package/vue-resource
+                    //Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.token;
+                    this.$router.push('/');
+                    window.location.href = '/';
+                } 
+               /* axios.defaults.headers.common['Authorization'] =response.data.token;
+               window.location.href = '/'; */
             })
             .catch( (response) =>{
                 console.log(response);

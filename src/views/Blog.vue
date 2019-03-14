@@ -97,7 +97,7 @@ export default {
     },
     getAllPostData:function(){
         axios
-            .get('http://localhost:8181/api/post/getAllPostWithComment')
+            .get('http://localhost:8181/api/post/getPostById/'+this.$route.params.param)
             .then((response) => {
                 console.log(response.data);
             this.posts= response.data;

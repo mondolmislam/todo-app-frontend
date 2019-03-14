@@ -1,17 +1,13 @@
 <template>
     <div>
        <b-navbar toggleable="lg" type="dark" variant="info">
-        <b-navbar-brand href="/">BLOGGER</b-navbar-brand>
-
+        <b-navbar-brand href="/"><img style="height: 40px;" src="../assets/b-logo.webp"/></b-navbar-brand>
         <b-navbar-toggle target="nav_collapse" />
 
         <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
             <b-nav-item href="/newpost">Add Blog Post</b-nav-item>
-            <b-nav-item href="#" disabled>Disabled</b-nav-item>
         </b-navbar-nav>
-
-        <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
             <b-nav-form>
             <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search" />
@@ -21,12 +17,10 @@
             <b-navbar-nav>
             <b-nav-item href="/login" v-if="user">Login</b-nav-item>
              </b-navbar-nav>
-
                 <b-nav-item-dropdown right>
-                <!-- Using button-content slot -->
                 <template slot="button-content"><em>User</em></template>
                 <b-dropdown-item href="#">Profile</b-dropdown-item>
-                <b-dropdown-item href="#">Signout</b-dropdown-item>
+                <b-dropdown-item @click="logout" href="#">Signout</b-dropdown-item>
                 </b-nav-item-dropdown>
             </b-navbar-nav>
             </b-collapse>
@@ -38,17 +32,32 @@ const axios = require('axios');
 export default {
     data() {
     return {
-      // note: changing this line won't causes changes
-      // with hot-reload because the reloaded component
-      // preserves its current state and we are modifying
-      // its initial state.
       msg: 'Hello World!',
       img: '../assets/blogger-logo.jpg',
       user:true
     };
   },
+   beforeCreate: function () {
+    if (this.$session.get('jwt')!=null||this.$session.get('jwt')!= undefined) {
+        this.user=false;
+    }else{
+        this.$router.push('/login');
+    }
+  },
    mounted() {
-            this.user=axios.defaults.headers.common['Authorization'] ;
-        }
+     if (this.$session.get('jwt')!=null||this.$session.get('jwt')!= undefined) {
+        this.user=false;
+    }else{
+        this.$router.push('/login');
+    }
+  },
+  
+   methods: {
+    logout: function () {
+      this.$session.destroy();
+      this.$router.push('/');
+      window.location.href = '/';
+    }
+  }
 };
 </script>

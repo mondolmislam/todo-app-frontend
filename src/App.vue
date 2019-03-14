@@ -11,7 +11,8 @@
 <script>
 import AHeader from '@/components/Header.vue';
 import AFooter from '@/components/Footer.vue';
-
+/* var parts = "foo/bar/test.html".split("/");
+var result = parts[parts.length - 1];  */
 export default {
   name: 'App',
   components: {
